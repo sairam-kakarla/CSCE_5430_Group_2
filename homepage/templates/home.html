@@ -16,6 +16,10 @@
         <canvas id="bar-graph"></canvas>
     </div>
 
+    <div id="container" style="position: relative; height:45vh; border: 2mm ridge #4F102B; border-radius: 30px;" class="align-middle table-bordered">
+        <canvas id="pie-graph"></canvas>
+    </div>
+
     <br>
 
     <div class="row">
@@ -70,7 +74,8 @@
     </div>
 
     <!-- Loading Chart JS -->
-    <script src="{% static 'js/Chart.min.js' %}"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+    <script src="https://raw.githubusercontent.com/google/palette.js/master/palette.js"></script> 
     <script>
         Chart.defaults.global.defaultFontColor = '#fff';
 
@@ -82,6 +87,7 @@
                     backgroundColor: '#ea2088',
                     label: 'Stock in Inventory',
                     data: {{ data|safe }},
+                    hoverOffset: 5
                 }],
                 labels: {{ labels|safe }}
             },
@@ -91,11 +97,46 @@
             },
         };
 
+        function getRandomColor(count) {
+            var colors = [];
+            for (var i = 0; i < count; i++) {
+                var letters = '0123456789ABCDEF'.split('');
+                var color = '#';
+                for (var x = 0; x < 6; x++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                colors.push(color);
+            }
+            return colors;
+        } 
+
+        var pieChartConfig={
+            type: 'pie',
+            data: {
+                datasets: [{
+                    backgroundColor: '#ea2088',
+                    label: 'Stock in Inventory',
+                    data: {{ data|safe }},
+                    backgroundColor: getRandomColor({{ data_length|safe }})
+                }],
+                labels: {{ labels|safe }}
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            },
+
+
+        }
+
 
         //runs all charts on loading the webpage
         window.onload = function() {
             var ctx = document.getElementById('bar-graph').getContext('2d');
             window.BarStock = new Chart(ctx, barConfig);
+
+            var ctx = document.getElementById('pie-graph').getContext('2d');
+            window.PieStock = new Chart(ctx, pieChartConfig);
         };
 
     </script>

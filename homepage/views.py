@@ -19,7 +19,8 @@ class HomeView(View):
             'labels'    : labels,
             'data'      : data,
             'sales'     : sales,
-            'purchases' : purchases
+            'purchases' : purchases,
+            'data_length': len(data)
         }
         return render(request, self.template_name, context)
 

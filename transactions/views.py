@@ -143,7 +143,6 @@ class PurchaseCreateView(View):
 
     def post(self, request, pk):
         formset = PurchaseItemFormset(request.POST)                             # recieves a post method for the formset
-        form=SaleForm(request.POST)
         supplierobj = get_object_or_404(Supplier, pk=pk)                        # gets the supplier object
         if formset.is_valid():
             # saves bill
@@ -161,7 +160,7 @@ class PurchaseCreateView(View):
             
             try:
                 # create bill details object
-                billdetailsobj = SaleBillDetails(billno=billobj)
+                billdetailsobj = PurchaseBillDetails(billno=billobj)
                 billdetailsobj.save()
 
             except Exception as exc:
@@ -284,10 +283,10 @@ class SaleCreateView(View):
                 if stock.quantity<THRESHOLD:
                     updated_stock=stock.quantity
                     send_mail(
-                        'Low Stock Alert',#title
+                        'BA3 || Low Stock Alert',#title
                         "Stock of "+stock.name+" reduced to "+str(updated_stock)+" after sale. Please purchase to maintain stock",
                         "settings.EMAIL_HOST_USER",
-                        ['kakarla2914@gmail.com'],
+                        [request.user.email],
                         fail_silently=False)
                 
                 # Write EMAIL Alter Code
