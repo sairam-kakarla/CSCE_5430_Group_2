@@ -144,8 +144,8 @@ LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [                    # urls ignored by the lo
 # SMTP EMAIL CONFIG
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'lakshmisairam.2914.k@gmail.com'
-
+EMAIL_HOST_USER = 'your_email'
+EMAIL_HOST_PASSWORD = 'yourpass_word'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
