@@ -9,15 +9,17 @@
 {% block content %}
     
     <div class="row" style="color: #ea2088; font-style: bold; font-size: 3rem;">
-        <div class="col-md-8">Suppliers List</div>
+        <div class="col-md-8">Supplier List</div>
         <div class="col-md-4">               
             <div style="float:right;"> <a class="btn ghost-blue" href="{% url 'new-supplier' %}">Add New Supplier</a> </div>
+            <div style="float:right;"> <button class="btn ghost-blue" onclick="downloadTableAsCSV()">Export Data</button></div>
+            
         </div>
     </div>
 
     <br>
 
-    <table class="table table-css">
+    <table id="myTable" class="table table-css">
         
         <thead class="thead-inverse align-middle">
             <tr>
@@ -78,11 +80,33 @@
 
         <tbody></tbody>   
     </table>
+    
 
     <br><br><br><br><br><br><br><br>
     <div style="color: #ea2088; font-style: bold; font-size: 1.5rem; text-align: center;">WOW, SUCH EMPTY</div>
 
 {% endif %}
+    <script>
+        function downloadTableAsCSV() {
+            const table = document.getElementById('myTable');
+            const rows = table.querySelectorAll('tr');
 
+            let csvContent = "data:text/csv;charset=utf-8,";
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td, th');
+                const rowData = Array.from(cells).map(cell => cell.textContent);
+                csvContent += rowData.join(',') + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "suppliers_list.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
 
 {% endblock content %}
