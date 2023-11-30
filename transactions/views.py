@@ -142,12 +142,15 @@ class PurchaseCreateView(View):
         return render(request, self.template_name, context)
 
     def post(self, request, pk):
-        formset = PurchaseItemFormset(request.POST)                             # recieves a post method for the formset
-        supplierobj = get_object_or_404(Supplier, pk=pk)                        # gets the supplier object
+        formset = PurchaseItemFormset(request.POST)
+        # gets the supplier object                            
+        # recieves a post method for the formset
+        supplierobj = get_object_or_404(Supplier, pk=pk) 
+        form=PurchaseItemForm()        
         if formset.is_valid():
             # saves bill
             try:
-                billobj = form.save(commit=False)
+                billobj = PurchaseBill(supplier_id=pk)
                 billobj.save()
 
             except Exception as exc:
@@ -240,7 +243,11 @@ class SaleCreateView(View):
 
     def post(self, request):
         form = SaleForm(request.POST)
-        formset = SaleItemFormset(request.POST)                                 # recieves a post method for the formset
+        formset = SaleItemFormset(request.POST)
+        print(request.POST)  
+        print(form.errors) 
+        print(form.is_valid()) 
+                                         # recieves a post method for the formset
         if form.is_valid() and formset.is_valid():
             # saves bill
             try:

@@ -39,6 +39,7 @@
         <form method="post" class="panel panel-default">
             
             {% csrf_token %}
+            {{ form.non_field_errors }}
             {{ formset.management_form }}
 
             <div class="panel-heading panel-heading-text">Product Details</div>

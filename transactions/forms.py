@@ -31,7 +31,7 @@ class PurchaseItemForm(forms.ModelForm):
         self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
         self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
     class Meta:
-        model = PurchaseItem
+        model = PurchaseItem        
         fields = ['stock', 'quantity', 'perprice']
 
 # formset used to render multiple 'PurchaseItemForm'
