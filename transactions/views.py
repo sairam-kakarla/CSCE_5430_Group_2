@@ -150,6 +150,7 @@ class PurchaseCreateView(View):
         if formset.is_valid():
             # saves bill
             try:
+                # Created PurchaseBill Manually
                 billobj = PurchaseBill(supplier_id=pk)
                 billobj.save()
 
