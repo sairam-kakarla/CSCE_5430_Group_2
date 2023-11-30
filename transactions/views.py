@@ -155,6 +155,7 @@ class PurchaseCreateView(View):
                 billobj.save()
 
             except Exception as exc:
+                # If we can't create purchase bill, we can't process the request
                 print('Exception error! ',exc)
                 context = {
                     'form'      : form,
